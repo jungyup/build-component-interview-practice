@@ -16,7 +16,7 @@
                 class="time-input"
                 v-model="minutes"
                 min="0"
-                :max="60"
+                max="60"
                 :aria-label="`${minutes} minutes`"
             />:
             <input
@@ -24,6 +24,8 @@
                 placeholder="SS"
                 class="time-input"
                 v-model="seconds"
+                min="0"
+                max="60"
                 :aria-label="`${seconds} seconds remaining`"
             />
             <div class="button-wrapper">
@@ -53,6 +55,15 @@ export default {
 
         function startTime(timerHours, timerMinutes, timerSeconds) {
             console.log(timerHours, timerMinutes, timerSeconds);
+            remainingTime.value = timerHours * 3600 + timerMinutes * 60 + timerSeconds;
+            setTimeout(() => {
+                remainingTime.value -= 1
+            }, 1000)
+            console.log(remainingTime.value)
+            hours.value = Math.floor(remainingTime.value / 3600);
+            minutes.value = Math.floor((remainingTime.value / 60) % 60);
+            seconds.value = remainingTime.value % 60;
+            console.log({ hours, minutes, seconds })
         }
 
         return {
@@ -77,6 +88,10 @@ export default {
         display: flex;
         justify-content: center;
         gap: 8px;
+
+        .time-input {
+            flex-basis: 10%;
+        }
 
         .button-wrapper {
             display: flex;
