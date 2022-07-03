@@ -30,48 +30,120 @@
             />
             <div class="button-wrapper">
                 <button
+                    v-if="isPaused"
                     @click="startTime(hours, minutes, seconds)"
                     class="timer-toggle"
+                    :disabled="!hours && !minutes && !seconds"
+                    type="submit"
                 >
                     Start
                 </button>
-                <button class="reset-timer">Reset</button>
+                <button
+                    v-if="!isPaused"
+                    @click="pauseTime()"
+                    class="pause-timer"
+                >
+                    Pause
+                </button>
+                <button
+                    v-if="remainingTime > 0"
+                    @click="resetTime()"
+                    class="reset-timer"
+                >
+                    Reset
+                </button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 export default {
     name: "CountdownTimer",
-    setup() {
+    props: {
+        isSafari: {
+            type: Boolean,
+            default: false
+        }
+    },
+    setup(props) {
         let hours = ref(null);
         let minutes = ref(null);
         let seconds = ref(null);
         let remainingTime = ref(null);
+        let isPaused = ref(true);
+        let interval;
 
-        console.log(hours);
+        let permission = Notification.permission;
 
         function startTime(timerHours, timerMinutes, timerSeconds) {
-            console.log(timerHours, timerMinutes, timerSeconds);
+            isPaused.value = false;
             remainingTime.value = timerHours * 3600 + timerMinutes * 60 + timerSeconds;
-            setTimeout(() => {
-                remainingTime.value -= 1
-            }, 1000)
-            console.log(remainingTime.value)
+            if (!isPaused.value) {
+                interval = setInterval(() => {
+                    if (remainingTime.value === 0) {
+                        clearInterval(interval);
+                        isPaused.value = true;
+
+                        if(permission === "granted" && props.isSafari) {
+                            showNotification();
+                        } else if(permission === "default" && props.isSafari) {
+                            requestAndShowPermission();
+                        } else {
+                            alert("Countdown Time is Up!");
+                        }
+                    } else {
+                        remainingTime.value--;
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseTime() {
+            isPaused.value = true;
+            clearInterval(interval);
+        }
+
+        function resetTime() {
+            remainingTime.value = 0;
+        }
+
+        function showNotification() {
+            let title = "Countdown Timer";
+            let icon = 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png';
+            let body = "Countdown Time is Up!";
+            var notification = new Notification(title, { body, icon });
+
+            notification.onclick = () => {
+                    notification.close();
+                    window.parent.focus();
+            }
+        }
+
+        function requestAndShowPermission() {
+            Notification.requestPermission().then((permission) => {
+                if (permission === "granted") {
+                    showNotification();
+                }
+            });
+        }
+
+        watch(remainingTime, () => {
             hours.value = Math.floor(remainingTime.value / 3600);
             minutes.value = Math.floor((remainingTime.value / 60) % 60);
             seconds.value = remainingTime.value % 60;
-            console.log({ hours, minutes, seconds })
-        }
+        });
 
         return {
             hours,
             minutes,
             seconds,
             remainingTime,
+            isPaused,
             startTime,
+            pauseTime,
+            resetTime,
         };
     },
 };
@@ -82,6 +154,9 @@ export default {
     .countdown-heading {
         font-family: Arial, Helvetica, sans-serif;
         font-style: italic;
+        font-size: 22px;
+        margin-bottom: 20px;
+        text-align: center;
     }
 
     .timer-wrapper {
@@ -90,7 +165,8 @@ export default {
         gap: 8px;
 
         .time-input {
-            flex-basis: 10%;
+            width: 7%;
+            text-align: right;
         }
 
         .button-wrapper {

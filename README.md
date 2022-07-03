@@ -1,24 +1,19 @@
-# build-component-interview-practice
+## Build a Component Interview Practice
 
-## Project setup
-```
-npm install
-```
+This repo is work just personal practice for an interview in case to build a component with preferred environment, which was Vue in this repo
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Project setup
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Please clone the repo and run npm install\
+Then, npm run serve to run the application
 
-### Lints and fixes files
-```
-npm run lint
-```
+### Components List
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+-   Countdown Timer
+    -   Create a countdown timer that allows the user to enter hours, minutes, and seconds.
+    -   The detailed information and requirements about the question can be found [here](https://frontendeval.com/questions/countdown-timer)
+    -   The component link within this repo is [here](src/components/CountdownTimer.vue)
+    -   Implemented features
+        -   User can set the time from input field and click start will start the timer
+        -   Once timer started user can click pause to pause the timer and click reset to reset the timer
+        -   Reset button will be only shown if there is remaining time
