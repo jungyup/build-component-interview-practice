@@ -1,6 +1,6 @@
 ## Build a Component Interview Practice
 
-This repo is work just personal practice for an interview in case to build a component with preferred environment, which was Vue in this repo
+This repo is for personal practice for an interview in case to build a component with preferred environment, which was Vue in this repo
 
 ### Project setup
 
@@ -17,3 +17,4 @@ Then, npm run serve to run the application
         -   User can set the time from input field and click start will start the timer
         -   Once timer started user can click pause to pause the timer and click reset to reset the timer
         -   Reset button will be only shown if there is remaining time
+        -   When time is up user will get notification if their browser is Safari on Mac, otherwise user will get window alert popup
