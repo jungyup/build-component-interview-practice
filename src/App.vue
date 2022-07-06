@@ -5,29 +5,39 @@
             <div class="row">
                 <CountdownTimer :is-safari="isSafari" />
             </div>
+            <div class="row">
+                <ShoppingList />
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import CountdownTimer from "./components/CountdownTimer.vue";
+import CountdownTimer from './components/CountdownTimer.vue';
+import ShoppingList from './components/ShoppoingList.vue';
+// import { useShoppingList } from './composables/useShoppingList';
 
 export default {
-    name: "App",
+    name: 'App',
     components: {
         CountdownTimer,
+        ShoppingList,
     },
     setup() {
         // check if the browser is Safari since there is CROB error on Chrome and Firefox
         let isSafari =
             /constructor/i.test(window.HTMLElement) ||
             (function (p) {
-                return p.toString() === "[object SafariRemoteNotification]";
+                return p.toString() === '[object SafariRemoteNotification]';
             })(
-                !window["safari"] ||
-                    (typeof safari !== "undefined" &&
-                        window["safari"].pushNotification)
+                !window['safari'] ||
+                    (typeof safari !== 'undefined' &&
+                        window['safari'].pushNotification)
             );
+
+        // let { getShoppingList } = useShoppingList();
+
+        // getShoppingList('mi');
 
         return {
             isSafari,
