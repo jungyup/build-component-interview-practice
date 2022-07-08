@@ -28,9 +28,7 @@ const mutations = {
 };
 
 const actions = {
-    // eslint-disable-next-line no-unused-vars
     async getShoppingList({ commit }, keyword) {
-        console.log({ keyword });
         const endpointURL = process.env.VUE_APP_SHOPPINGLIST_ENDPOINT;
 
         await fetch(`${endpointURL}/${keyword}`)

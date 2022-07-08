@@ -147,7 +147,6 @@ export default {
 
     .search-result {
         .search-list {
-            // border: solid 1px black;
             .search-item {
                 list-style: none;
                 text-decoration: underline;

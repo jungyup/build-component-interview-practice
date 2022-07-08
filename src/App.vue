@@ -15,7 +15,6 @@
 <script>
 import CountdownTimer from './components/CountdownTimer.vue';
 import ShoppingList from './components/ShoppoingList.vue';
-// import { useShoppingList } from './composables/useShoppingList';
 
 export default {
     name: 'App',
@@ -34,10 +33,6 @@ export default {
                     (typeof safari !== 'undefined' &&
                         window['safari'].pushNotification)
             );
-
-        // let { getShoppingList } = useShoppingList();
-
-        // getShoppingList('mi');
 
         return {
             isSafari,
