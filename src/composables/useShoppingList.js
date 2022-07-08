@@ -16,9 +16,19 @@ export function useShoppingList() {
         await store.dispatch('shoppingList/getShoppingList', keyword);
     }
 
+    function addToShoppingList(item) {
+        store.dispatch('shoppingList/addToShoppingList', item);
+    }
+
+    function removeFromShoppingList(index) {
+        store.dispatch('shoppingList/removeFromShoppingList', index);
+    }
+
     return {
         shoppingList,
         searchResults,
         getShoppingList,
+        addToShoppingList,
+        removeFromShoppingList,
     };
 }
