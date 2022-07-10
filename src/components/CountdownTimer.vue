@@ -58,14 +58,14 @@
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { ref, watch } from 'vue';
 export default {
-    name: "CountdownTimer",
+    name: 'CountdownTimer',
     props: {
         isSafari: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
     },
     setup(props) {
         let hours = ref(null);
@@ -79,19 +79,20 @@ export default {
 
         function startTime(timerHours, timerMinutes, timerSeconds) {
             isPaused.value = false;
-            remainingTime.value = timerHours * 3600 + timerMinutes * 60 + timerSeconds;
+            remainingTime.value =
+                timerHours * 3600 + timerMinutes * 60 + timerSeconds;
             if (!isPaused.value) {
                 interval = setInterval(() => {
                     if (remainingTime.value === 0) {
                         clearInterval(interval);
                         isPaused.value = true;
 
-                        if(permission === "granted" && props.isSafari) {
+                        if (permission === 'granted' && props.isSafari) {
                             showNotification();
-                        } else if(permission === "default" && props.isSafari) {
+                        } else if (permission === 'default' && props.isSafari) {
                             requestAndShowPermission();
                         } else {
-                            alert("Countdown Time is Up!");
+                            alert('Countdown Time is Up!');
                         }
                     } else {
                         remainingTime.value--;
@@ -110,20 +111,21 @@ export default {
         }
 
         function showNotification() {
-            let title = "Countdown Timer";
-            let icon = 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png';
-            let body = "Countdown Time is Up!";
+            let title = 'Countdown Timer';
+            let icon =
+                'https://homepages.cae.wisc.edu/~ece533/images/airplane.png';
+            let body = 'Countdown Time is Up!';
             var notification = new Notification(title, { body, icon });
 
             notification.onclick = () => {
-                    notification.close();
-                    window.parent.focus();
-            }
+                notification.close();
+                window.parent.focus();
+            };
         }
 
         function requestAndShowPermission() {
             Notification.requestPermission().then((permission) => {
-                if (permission === "granted") {
+                if (permission === 'granted') {
                     showNotification();
                 }
             });
